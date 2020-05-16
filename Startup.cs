@@ -25,6 +25,7 @@ using Burak.Boilerplate.Utilities.Constants;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Burak.Boilerplate.Business.Services.Interface;
 
 namespace Burak.Boilerplate
 {
@@ -40,7 +41,10 @@ namespace Burak.Boilerplate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddLogging(builder => builder.AddNLog());
             services.AddOptionsConfiguration(Configuration);
@@ -97,6 +101,7 @@ namespace Burak.Boilerplate
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

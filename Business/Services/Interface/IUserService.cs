@@ -4,7 +4,7 @@ using Burak.Boilerplate.Models.Responses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Burak.Boilerplate.Business.Services.Implementation
+namespace Burak.Boilerplate.Business.Services.Interface
 {
     public interface IUserService
     {

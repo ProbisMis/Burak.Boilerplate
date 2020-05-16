@@ -15,6 +15,7 @@ using AutoMapper;
 using Burak.Boilerplate.Data.EntityModels;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using Burak.Boilerplate.Business.Services.Interface;
 
 namespace Burak.Boilerplate.Api.Controllers
 {

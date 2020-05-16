@@ -1,4 +1,5 @@
-﻿using Burak.Boilerplate.Models.CustomExceptions;
+﻿using Burak.Boilerplate.Data.EntityModels;
+using Burak.Boilerplate.Models.CustomExceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace Burak.Boilerplate.Models.Responses
 {
     public class UserResponse : ServiceAdaptorException
     {
+        public ICollection<UserItem> UserItems { get; set; }
+
         public int Id { get; set; }
         public Guid UserGuid { get; set; }
         public string UserCode { get; set; } //TODO:  Unique number generated for Client  online-interactions (gift, invite)

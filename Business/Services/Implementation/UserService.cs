@@ -19,6 +19,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Burak.Boilerplate.Business.Services.Interface;
+using Microsoft.AspNetCore.Http;
 
 namespace Burak.Boilerplate.Business.Services.Implementation
 {
@@ -60,7 +62,6 @@ namespace Burak.Boilerplate.Business.Services.Implementation
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
-
             // Sifre null olarak gonderilir.
             user.Password = null;
             
@@ -97,7 +98,7 @@ namespace Burak.Boilerplate.Business.Services.Implementation
 
         public async Task<IEnumerable<User>> GetAll()
         {
-            var users =  _dataContext.Users;
+            var users =  _dataContext.Users.Include(x => x.UserItems);
             return users;
         }
 
@@ -109,7 +110,7 @@ namespace Burak.Boilerplate.Business.Services.Implementation
 
         public async Task<User> GetUserById(int userId)
         {
-            var user = _dataContext.Users.Where(x => x.Id == userId && !x.IsDeleted && x.IsActive).First();
+            var user = _dataContext.Users.Include(x => x.UserItems).Where(x => x.Id == userId && !x.IsDeleted && x.IsActive).First();
             return user;
         }
 
