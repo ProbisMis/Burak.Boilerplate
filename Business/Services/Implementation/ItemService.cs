@@ -1,5 +1,8 @@
-﻿using Burak.Boilerplate.Business.Services.Interface;
+﻿using AutoMapper.Configuration;
+using Burak.Boilerplate.Business.Services.Interface;
+using Burak.Boilerplate.Data;
 using Burak.Boilerplate.Data.EntityModels;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +12,46 @@ namespace Burak.Boilerplate.Business.Services.Implementation
 {
     public class ItemService : IItemService
     {
-        public Task<IList<Item>> CreateItem()
+        private readonly DataContext _dataContext;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<ItemService> _logger;
+
+        public ItemService(DataContext dataContext, 
+            IConfiguration configuration, ILogger<ItemService> logger)
         {
-            throw new NotImplementedException();
+            _dataContext = dataContext;
+            _configuration = configuration;
+            _logger = logger;
         }
 
-        public Task<IList<Item>> GetAll()
+        public async Task<Item> CreateItem(Item item)
         {
-            throw new NotImplementedException();
+            var addedItem = _dataContext.Items.Add(item);
+            await _dataContext.SaveChangesAsync();
+
+            return addedItem.Entity;
         }
 
-        public Task<IList<Item>> GetItemById()
+        public async Task<IList<Item>> GetAll()
         {
-            throw new NotImplementedException();
+            var items = _dataContext.Items;
+
+            return items.ToList();
         }
 
-        public Task<IList<Item>> UpdateItem()
+        public async Task<Item> GetItemById(int itemId)
         {
-            throw new NotImplementedException();
+            var item = _dataContext.Items.Find(itemId);
+
+            return item;
+        }
+
+        public async Task<Item> UpdateItem(Item item)
+        {
+            var updatedItem = _dataContext.Items.Update(item);
+            await _dataContext.SaveChangesAsync();
+
+            return updatedItem.Entity;
         }
     }
 }

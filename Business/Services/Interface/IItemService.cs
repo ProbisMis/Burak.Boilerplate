@@ -9,8 +9,8 @@ namespace Burak.Boilerplate.Business.Services.Interface
     public interface IItemService
     {
         Task<IList<Item>> GetAll();
-        Task<IList<Item>> GetItemById();
-        Task<IList<Item>> CreateItem();
-        Task<IList<Item>> UpdateItem();
+        Task<Item> GetItemById(int itemId);
+        Task<Item> CreateItem(Item item);
+        Task<Item> UpdateItem(Item item);
     }
 }
