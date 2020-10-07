@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Burak.Boilerplate.Utilities;
 
 namespace Burak.Boilerplate.Business.Services.Implementation
 {
@@ -55,9 +56,19 @@ namespace Burak.Boilerplate.Business.Services.Implementation
             return userItem;
         }
 
-        public Task<User> UpdateUserItem(User user, UserItem item)
+        public async Task<UserItem> UpdateUserItem(UserItem userItem)
         {
-            throw new NotImplementedException();
+            _dataContext.UserItems.Update(userItem);
+            await _dataContext.SaveChangesAsync();
+
+            var updatedUserItem = await GetUserItemById(userItem.UserId, userItem.ItemId);
+            return updatedUserItem;
+        }
+        
+        public async Task DeleteUserItem(UserItem userItem)
+        {
+            _dataContext.UserItems.Remove(userItem);
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

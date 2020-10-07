@@ -21,6 +21,8 @@ namespace Burak.Boilerplate.Business.Mappers
             base.CreateMap<ItemRequest, Item>().ReverseMap();
           
             base.CreateMap<ItemResponse, Item>().ReverseMap();
+            
+            base.CreateMap<UserItemRequest, UserItem>().ReverseMap();
             //CreateMap<Data.EntityModels.Appointment, AppointmentResponse>();
         }
     }
