@@ -1,29 +1,28 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Burak.Boilerplate.Business.Services.Implementation;
+﻿using System.Threading.Tasks;
+using AutoMapper;
+using Burak.Boilerplate.Business.Services.Interface;
+using Burak.Boilerplate.Business.Validators;
+using Burak.Boilerplate.Data.EntityModels;
 using Burak.Boilerplate.ExternalServices.Interface;
 using Burak.Boilerplate.Models.Requests;
 using Burak.Boilerplate.Models.Responses;
-using Burak.Boilerplate.Business.Validators;
+using Burak.Boilerplate.Utilities.Constants;
 using Burak.Boilerplate.Utilities.ValidationHelper.ValidatorResolver;
-using FluentValidation.Results;
 using FluentValidation;
-using AutoMapper;
-using Burak.Boilerplate.Data.EntityModels;
-using System.Collections.Generic;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
-using Burak.Boilerplate.Business.Services.Interface;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 
-namespace Burak.Boilerplate.Api.Controllers
+namespace Burak.Boilerplate.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/user")]
     public class UserApiController : ControllerBase
     {
+        private readonly IStringLocalizer<UserApiController> _localizer;
         private readonly ILogger<UserApiController> _logger;
         private readonly IUserService _userService;
         private readonly IShopExternalService _shopExternalService;
@@ -31,6 +30,7 @@ namespace Burak.Boilerplate.Api.Controllers
         private readonly IMapper _mapper;
 
         public UserApiController(ILogger<UserApiController> logger,
+            IStringLocalizer<UserApiController> localizer, 
             IUserService userService,
             IShopExternalService shopExternalService,
             IValidatorResolver validatorResolver,
@@ -42,8 +42,16 @@ namespace Burak.Boilerplate.Api.Controllers
             _shopExternalService = shopExternalService;
             _validatorResolver = validatorResolver;
             _mapper = mapper;
+            _localizer = localizer;
         }
-
+        
+        [AllowAnonymous]
+        [HttpPost("testLocale")]
+        public string TestLocale()
+        {
+            return _localizer.GetString(LocaleResourceConstants.UserNotFound);
+        }
+        
         #region Authorization
 
         [AllowAnonymous]

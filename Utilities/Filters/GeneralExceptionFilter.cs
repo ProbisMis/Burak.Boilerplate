@@ -1,12 +1,12 @@
 using System;
 using System.Net;
+using Burak.Boilerplate.Models.CustomExceptions;
+using Burak.Boilerplate.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Burak.Boilerplate.Models.CustomExceptions;
-using Burak.Boilerplate.Models.Responses;
 
-namespace Burak.Boilerplate.Api.Filters
+namespace Burak.Boilerplate.Utilities.Filters
 {
     public class GeneralExceptionFilter : IExceptionFilter
     {

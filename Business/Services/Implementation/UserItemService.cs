@@ -29,9 +29,13 @@ namespace Burak.Boilerplate.Business.Services.Implementation
             _userService = userService;
         }
 
-        public async Task<User> CreateUserItem(User user,UserItem item)
+        public async Task<User> CreateUserItem(UserItem item)
         {
-            var user1 = await  _userService.GetUserById(user.Id);
+            var user1 = item.User;
+            if (item.User == null)
+            {
+                user1 = await _userService.GetUserById(item.UserId);
+            }
             user1.UserItems.Add(item);
             _dataContext.Users.Update(user1);
             await _dataContext.SaveChangesAsync();

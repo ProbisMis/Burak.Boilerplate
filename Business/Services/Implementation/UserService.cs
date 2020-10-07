@@ -68,7 +68,7 @@ namespace Burak.Boilerplate.Business.Services.Implementation
             return user;
         }
 
-        #region Appointment
+        #region User CRUD
         public async Task<User> CreateUser(User userRequest)
         {
             var updateDate = DateTime.Now;

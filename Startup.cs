@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -8,14 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
-using Burak.Boilerplate.Api.Filters;
-using Burak.Boilerplate.Api.Configurations.Startup;
 using Burak.Boilerplate.Data;
 using Burak.Boilerplate.Business.Mappers;
 using Burak.Boilerplate.Business.Validators;
 using Burak.Boilerplate.Utilities.Middleware;
 using Burak.Boilerplate.Utilities.ConfigModels;
-using Burak.Boilerplate.Helper;
 using Burak.Boilerplate.Utilities.ValidationHelper.ValidatorResolver;
 using Burak.Boilerplate.ExternalServices.Implementation;
 using Burak.Boilerplate.ExternalServices.Interface;
@@ -26,6 +25,11 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Burak.Boilerplate.Business.Services.Interface;
+using Burak.Boilerplate.Utilities.Configurations.Startup;
+using Burak.Boilerplate.Utilities.Filters;
+using Burak.Boilerplate.Utilities.Helper;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 
 namespace Burak.Boilerplate
 {
@@ -46,6 +50,20 @@ namespace Burak.Boilerplate
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.Configure<RequestLocalizationOptions>(
+                options =>
+                {
+                    var supportedCultures = new List<CultureInfo>
+                    {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("tr-TR")
+                    };
+                    
+                    options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
+                    options.SupportedCultures = supportedCultures;
+                    options.SupportedUICultures = supportedCultures;
+                });
             services.AddLogging(builder => builder.AddNLog());
             services.AddOptionsConfiguration(Configuration);
             services.AddMvc(options => options.Filters.Add<GeneralExceptionFilter>());
@@ -73,6 +91,11 @@ namespace Burak.Boilerplate
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            })
+            .AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = AppConstants.FacebookAppId;
+                facebookOptions.AppSecret = AppConstants.FacebookAppSecret;
             });
 
             services.AddSwaggerGen(c =>
@@ -86,11 +109,14 @@ namespace Burak.Boilerplate
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            var localizedOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(localizedOptions.Value);
 
             app.UseCors(option => option.AllowAnyHeader()
                                         .AllowAnyMethod()
                                         .AllowAnyOrigin());
-
+    
             app.UseSwagger();
 
             app.UseSwaggerUI(c => {
@@ -110,6 +136,8 @@ namespace Burak.Boilerplate
             });
 
             app.UseTraceIdMiddleware();
+
+           
         }
 
         private void AddSelectedDataStorage(IServiceCollection services)

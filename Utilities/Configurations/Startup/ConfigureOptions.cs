@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using static Burak.Boilerplate.CommunicationEndpoints;
 
-namespace Burak.Boilerplate.Api.Configurations.Startup
+namespace Burak.Boilerplate.Utilities.Configurations.Startup
 {
     public static class ConfigureOptions
     {

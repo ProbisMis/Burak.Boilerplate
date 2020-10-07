@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Linq;
 using Burak.Boilerplate.Utilities.ConfigModels;
 using Burak.Boilerplate.Utilities.Constants;
-using System;
-using System.Linq;
+using Microsoft.Extensions.Configuration;
 
-namespace Burak.Boilerplate.Helper
+namespace Burak.Boilerplate.Utilities.Helper
 {
     public class ConfigurationHelper
     {

@@ -7,8 +7,8 @@ using Microsoft.Extensions.Hosting;
 using NLog;
 using NLog.Web;
 using Burak.Boilerplate.Data;
-using Burak.Boilerplate.Helper;
 using Burak.Boilerplate.Utilities.Constants;
+using Burak.Boilerplate.Utilities.Helper;
 
 namespace Burak.Boilerplate
 {

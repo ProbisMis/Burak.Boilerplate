@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Burak.Boilerplate.Data.EntityModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Burak.Boilerplate.Models.Requests
     {
         public int CustomerId { get; set; }
         public int PurchaseTotal { get; set; }
-        public List<ItemRequest> Items { get; set; }
+        public List<UserItem> Items { get; set; }
 
 
     }

@@ -10,7 +10,7 @@ namespace Burak.Boilerplate.Business.Services.Interface
     {
         Task<IList<UserItem>> GetAllUserItems(int userId);
         Task<UserItem> GetUserItemById(int userId, int itemId);
-        Task<User> CreateUserItem(User user, UserItem item);
+        Task<User> CreateUserItem(UserItem item);
         Task<User> UpdateUserItem(User user, UserItem item);
     }
 }
