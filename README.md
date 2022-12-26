@@ -1,4 +1,4 @@
-#Welcome to the C# .NET Core Boilerplate backend server for mobile games!
+# Welcome to the C# .NET Core Boilerplate backend server for mobile games!
 
 This repository contains a starting point for building a backend server for mobile games using C# and .NET Core. It includes a variety of useful features and tools to help you get started quickly and efficiently.
 
